@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Картины МБОУ СОШ №6</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #b21f1f;
+            color: #b21f1f;
+        }
+
+        .section {
+            display: none;
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heroes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .hero-content {
+            padding: 1.5rem;
+        }
+
+        .hero-content h3 {
+            margin-bottom: 1rem;
+            color: #1a2a6c;
+            font-size: 1.3rem;
+        }
+
+        .hero-content p {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+/* === ОГРАНИЧЕНИЕ ВЫСОТЫ ИЗОБРАЖЕНИЙ - НАЧАЛО === */
+        .hero-image, .event-image {
+            width: 100%;
+            height: 200px;
+            max-height: 200px; /* ОГРАНИЧЕНИЕ МАКСИМАЛЬНОЙ ВЫСОТЫ */
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-bottom: 3px solid #1a2a6c;
+        }
+
+        .hero-image img, .event-image img {
+            width: 100%;
+            height: 100%;
+            max-height: 200px; /* ОГРАНИЧЕНИЕ ДЛЯ САМИХ ИЗОБРАЖЕНИЙ */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        /* === ОГРАНИЧЕНИЕ ВЫСОТЫ ИЗОБРАЖЕНИЙ - КОНЕЦ === */
+        .event-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-content h3 {
+            margin-bottom: 1rem;
+            color: #1a2a6c;
+            font-size: 1.3rem;
+        }
+
+        .event-content p {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background-color: #1a2a6c;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .heroes-grid, .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Картины МБОУ СОШ №6</h1>
+        <p>Твои герои, Россия. Помним, Гордимся, Наследуем</p>
+    </header>
+
+    <div class="nav-tabs">
+        <div class="tab active" data-tab="heroes">Твои герои, Россия</div>
+        <div class="tab" data-tab="memory">Помним, Гордимся, Наследуем</div>
+    </div>
+
+    <section id="heroes" class="section active">
+        <div class="heroes-grid">
+            <!-- Герои будут добавлены с помощью JavaScript -->
+        </div>
+    </section>
+
+    <section id="memory" class="section">
+        <div class="events-grid">
+            <!-- События будут добавлены с помощью JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <p>МБОУ СОШ №6 &copy; 2025</p>
+    </footer>
+}
+
+    <script>
+        // Данные для раздела "Твои герои, Россия"
+        const heroesData = [
+{
+                name: "Александр Невский",
+                description: "Великий русский полководец и святой. Прославился победами над шведами в Невской битве и тевтонскими рыцарями в Ледовом побоище. Умело защищал русские земли от западных захватчиков. Проявил дипломатический талант в отношениях с Золотой Ордой. Канонизирован Русской православной церковью.",
+                image: "https://avatars.mds.yandex.net/i?id=6aab96e3b82657ceac8bbe717687730d4985ff3c-4566892-images-thumbs&n=13"
+            },
+            {
+                name: "Дмитрий Донской",
+                description: "Великий князь Московский и Владимирский. Возглавил объединённые русские войска в Куликовской битве. Впервые в истории Руси нанёс сокрушительное поражение Золотой Орде. Способствовал укреплению Московского княжества. Построил белокаменный Московский Кремль.",
+                image: "https://avatars.mds.yandex.net/i?id=35931bed07c2e17a3949b1034b9426f9_l-12579803-images-thumbs&n=13"
+            },
+            {
+                name: "Василий Мергелов",
+                description: "Советский военачальник, генерал-полковник. Участник Великой Отечественной войны. Командовал стрелковыми соединениями в важнейших операциях. Проявил личное мужество и полководческий талант. Награждён многочисленными орденами и медалями.",
+                image: "https://avatars.mds.yandex.net/i?id=0b8845907e0e288a888210cc6f6575d8c3d5080d-4979110-images-thumbs&n=13"
+            },
+            {
+                name: "Михаил Калашников",
+                description: "Выдающийся советский и российский конструктор стрелкового оружия. Создатель знаменитого автомата Калашникова (АК). Генерал-лейтенант, доктор технических наук. Дважды Герой Социалистического Труда. Его изобретение стало самым распространённым стрелковым оружием в мире.",
+                image: "https://avatars.mds.yandex.net/i?id=ceca15402120ba2cb884a30df2f0cbd77279fc26-10250346-images-thumbs&n=13"
+            },
+            {
+                name: "Пётр I",
+                description: "Великий русский царь и первый император России. Провёл масштабные реформы, превратившие Россию в мощную европейскую державу. Основатель Санкт-Петербурга и российского флота. Победил Швецию в Северной войне. Создал регулярную армию по европейскому образцу.",
+                image: "https://avatars.mds.yandex.net/i?id=c3c051c14922bcb6e717db591ad225acdf2c6297-7662747-images-thumbs&n=13"
+            },
+            {
+                name: "Екатерина II",
+                description: "Великая российская императрица немецкого происхождения. Провела множество реформ в духе просвещённого абсолютизма. Значительно расширила территорию Российской империи. Покровительствовала искусствам и наукам. В её честь названа эпоха 'Золотого века' русского дворянства.",
+                image: "https://avatars.mds.yandex.net/i?id=cc081b37a3309b23a8611dcd135d9b8baa5f52cd-4866980-images-thumbs&n=13"
+            },
+            {
+                name: "Сергей Королёв",
+                description: "Выдающийся советский учёный, конструктор ракетно-космической техники. Основоположник практической космонавтики. Под его руководством был запущен первый искусственный спутник Земли. Осуществлён первый полёт человека в космос. Дважды Герой Социалистического Труда.",
+                image: "https://avatars.mds.yandex.net/i?id=429861e5ff35f983fc7d85f7d34a52511f9d3fb5-5384260-images-thumbs&n=13"
+            },
+            {
+                name: "Юрий Гагарин",
+                description: "Первый человек в мировой истории, совершивший полёт в космическое пространство. Герой Советского Союза, кавалер высших знаков отличия многих государств. Его полёт на корабле 'Восток-1' стал триумфом советской науки. Погиб в авиационной катастрофе при выполнении тренировочного полёта. Его улыбка стала символом целой эпохи.",
+                image: "https://avatars.mds.yandex.net/i?id=6f3fd9bb22822b888871ae74d95b2d766755ce70-9710160-images-thumbs&n=13"
+            },
+            {
+                name: "Михаил Ломоносов",
+                description: "Великий русский учёный-энциклопедист, поэт и художник. Основатель Московского университета. Сделал важные открытия в химии, физике, астрономии. Возродил искусство мозаики в России. Считается одним из создателей современного русского литературного языка.",
+                image: "https://avatars.mds.yandex.net/i?id=0437e9964024c8405ca72d88ce1c91d72db4d09a-5286894-images-thumbs&n=13"
+            },
+            {
+                name: "Александр Пушкин",
+                description: "Величайший русский поэт, драматург и прозаик. Создатель современного русского литературного языка. Автор бессмертных произведений 'Евгений Онегин', 'Капитанская дочка', множество стихотворений. Основоположник русской реалистической литературы. Погиб на дуэли в расцвете творческих сил.",
+                image: "https://avatars.mds.yandex.net/i?id=5c54eb1eb9cf4299aafb5cedb2d6423cbec2c81c-9270532-images-thumbs&n=13"
+            },
+            {
+                name: "Валентина Терешкова",
+                description: "Первая в мире женщина-космонавт. Герой Советского Союза, генерал-майор авиации. Совершила полёт в космос на корабле 'Восток-6' в 1963 году. Активно занималась общественной и политической деятельностью. Является почётным гражданином многих городов России и мира.",
+                image: "https://avatars.mds.yandex.net/i?id=87dc67df861667078bdce8b96a96b34418e2a416-5207283-images-thumbs&n=13"
+            },
+            {
+                name: "Лев Яшин",
+                description: "Легендарный советский футбольный вратарь. Олимпийский чемпион 1956 года и чемпион Европы 1960 года. Единственный вратарь в истории, получивший 'Золотой мяч'. Сыграл 74 матча за сборную СССР. Считается одним из лучших вратарей в истории футбола.",
+                image: "https://avatars.mds.yandex.net/i?id=a64b8ec08d25bc17b13cd2a6a540f6575e84326a-4720855-images-thumbs&n=13"
+            },
+            {
+                name: "Дмитрий Менделеев",
+                description: "Великий русский учёный-энциклопедист. Создатель периодической системы химических элементов. Автор фундаментальных исследований в области химии, физики, метрологии. Профессор Санкт-Петербургского университета. Его открытие стало основой современной химии.",
+                image: "https://avatars.mds.yandex.net/i?id=992beab5a629cfc25f2404a2ae5a96aeb45b526b-5910330-images-thumbs&n=13"
+            },
+            {
+                name: "Дамир Юсупов",
+                description: "Герой России, пилот гражданской авиации. Совершил подвиг, посадив пассажирский самолет после столкновения с птицами. Спас жизни 233 пассажиров и членов экипажа. Проявил высочайший профессионализм и хладнокровие в экстремальной ситуации. Стал символом мужества российских пилотов.",
+                image: "https://avatars.mds.yandex.net/i?id=6ea380f00db3d198f5da4737fdb1553ae5d98e9c-9229722-images-thumbs&n=13"
+            },
+            {
+                name: "Александр Суворов",
+                description: "Великий русский полководец, не проигравший ни одного сражения. Генералиссимус российских сухопутных и морских сил. Разработал собственную военную теорию. Прославился победами в русско-турецких войнах и Швейцарском походе. Автор труда 'Наука побеждать'.",
+                image: "https://avatars.mds.yandex.net/i?id=22e52968847fdf5a51ffa378da68b2d6c2696df5-4357909-images-thumbs&n=13"
+            },
+            {
+                name: "Михаил Кутузов",
+                description: "Выдающийся русский полководец, генерал-фельдмаршал. Главнокомандующий русской армией во время Отечественной войны 1812 года. Разработал и успешно реализовал стратегию против Наполеона. Прославился Бородинским сражением и Тарутинским манёвром. Спас Россию от французского нашествия.",
+                image: "https://avatars.mds.yandex.net/i?id=7968fa5fe70020d48fb691d78c38104d1a90157b-2829628-images-thumbs&n=13"
+            },
+            {
+                name: "Роман Филипов",
+                description: "Герой России, военный лётчик. Погиб при выполнении боевого задания в Сирии. Когда его самолет был подбит, он до последнего управлял машиной. Уничтожил важные объекты противника. Посмертно награждён званием Героя Российской Федерации. Проявил невероятное мужество и самоотверженность.",
+                image: "https://avatars.mds.yandex.net/i?id=4650c6647a6e0193f26c1fb0df4205e55dae7af0-4809837-images-thumbs&n=13"
+            },
+            {
+                name: "Магомед Нурбагандов",
+                description: "Герой России, полицейский из Дагестана. Погиб при исполнении служебных обязанностей. Проявил невероятное мужество, отказавшись призывать коллег к сотрудничеству с боевиками. Его последние слова 'Работайте, братья!' стали символом мужества. Посмертно награждён званием Героя Российской Федерации.",
+                image: "https://avatars.mds.yandex.net/i?id=751babadfdaa5f2a7d7514d2b9d7fea774ecb6d9-9065885-images-thumbs&ref=rim&n=33&w=356&h=200"
+            },
+            {
+                name: "Георгий Жуков",
+                description: "Выдающийся советский полководец, Маршал Советского Союза. Четырежды Герой Советского Союза. Один из главных творцов Победы в Великой Отечественной войне. Командовал войсками в decisive битвах под Москвой, Сталинградом, Курском. Принимал Парад Победы на Красной площади в 1945 году.",
+                image: "https://avatars.mds.yandex.net/i?id=5c4a4dfda74b68fce8815510f851a1be7cb22141-8181450-images-thumbs&n=13"
+            },
+            {
+                name: "Дмитрий Карбышев",
+                description: "Герой Советского Союза, генерал-лейтенант инженерных войск. Участник русско-японской, Первой мировой и Великой Отечественной войн. Попав в плен, отказался сотрудничать с нацистами. Зверски замучен в концлагере Маутхаузен. Стал символом стойкости и верности воинской присяге.",
+                image: "https://avatars.mds.yandex.net/i?id=640509135ac9a6e088d6de8bb1ca149c13ac1ee9-16415947-images-thumbs&n=13"
+            },
+            {
+                name: "Владимир Жога",
+                description: "Герой России, военный комендант Мариуполя. Погиб при выполнении боевой задачи во время специальной военной операции. Проявил личное мужество и высокий профессионализм. Награждён званием Героя Российской Федерации посмертно. Стал символом мужества российских военных.",
+                image: "https://avatars.mds.yandex.net/i?id=ba92c86524a146c36b2b560842ccb003b4a270e5-5118451-images-thumbs&n=13"
+            }
+        ];
+
+        // Данные для раздела "Помним, Гордимся, Наследуем" (10 событий)
+        const memoryData = [
+            {
+                name: "Дмитрий Донской",
+                period: "1350-1389 гг.",
+                description: "Великий князь Московский, возглавивший борьбу русского народа против монголо-татарского ига. В 1380 году одержал историческую победу в Куликовской битве. Эта победа стала важным шагом к освобождению Руси от ордынской зависимости. При Дмитрии Донском был построен первый белокаменный Московский Кремль. Его правление укрепило роль Москвы как центра объединения русских земель.",
+                image: "https://avatars.mds.yandex.net/i?id=0ecc390554b9f7407f2af6cbe5f715326f136136-12209413-images-thumbs&n=13"
+            },
+            {
+                name: "Дмитрий Пожарский и Кузьма Минин",
+                period: "1612 г.",
+                description: "Руководители народного ополчения во время Смутного времени. В 1612 году освободили Москву от польско-литовских интервентов. Их подвиг способствовал прекращению Смуты и восстановлению российской государственности. Минин организовал сбор средств и формирование ополчения. Пожарский возглавил военные операции и штурм Москвы.",
+                image: "https://avatars.mds.yandex.net/i?id=ef31820306975f1fc206413a338e46ff95148d18-5363089-images-thumbs&n=13"
+            },
+            {
+                name: "Александр Суворов",
+                period: "1730-1800 гг.",
+                description: "Великий русский полководец, не проигравший ни одного сражения. Разработал собственную военную теорию с знаменитым принципом 'глазомер, быстрота, натиск'. Прославился победами в русско-турецких войнах и Швейцарском походе. Автор труда 'Наука побеждать'. Генералиссимус российских сухопутных и морских сил.",
+                image: "https://avatars.mds.yandex.net/i?id=2bfce87aa7f1aef006583a71b6e0c6c71c987d07-2466101-images-thumbs&n=13"
+            },
+            {
+                name: "Фёдор Ушаков",
+                period: "1745-1817 гг.",
+                description: "Выдающийся русский флотоводец, адмирал. Не проиграл ни одного морского сражения. Создатель маневренной тактики парусного флота. Основатель Черноморского флота России. Канонизирован Русской православной церковью как святой праведный воин. Его именем названы боевые корабли и награды.",
+                image: "https://avatars.mds.yandex.net/i?id=d3d2c6522adf148e7ed810defc32252bbbb3a98a-4571539-images-thumbs&n=13"
+            },
+            {
+                name: "Михаил Барклай-де-Толли",
+                period: "1761-1818 гг.",
+                description: "Выдающийся русский полководец, генерал-фельдмаршал. Герой Отечественной войны 1812 года. Разработал и успешно реализовал стратегию отступления русской армии. Эта стратегия позволила сохранить армию и подготовить контрнаступление. Командовал войсками в заграничных походах русской армии 1813-1814 годов.",
+                image: "https://avatars.mds.yandex.net/i?id=939d7fa1221b4630492c7aa1daaf42dcadb8ce21-4032520-images-thumbs&n=13"
+            },
+            {
+                name: "Павел Нахимов",
+                period: "1802-1855 гг.",
+                description: "Выдающийся русский флотоводец, адмирал. Герой Крымской войны и обороны Севастополя. Командовал русской эскадрой, разгромившей турецкий флот в Синопском сражении. Руководил обороной Севастополя. Погиб на Малаховом кургане при обороне города. Его именем названы военно-морские училища и корабли.",
+                image: "https://avatars.mds.yandex.net/i?id=905085f3ef21d9ad1888d709127c32e63d887c63-4877016-images-thumbs&n=13"
+            },
+            {
+                name: "Подвиг Панфиловцев",
+                period: "1941 г.",
+                description: "Легендарный подвиг бойцов 316-й стрелковой дивизии под командованием генерала Панфилова. 28 героев-панфиловцев в ноябре 1941 года под Москвой остановили наступление 50 немецких танков. Ценой собственных жизней они не пропустили врага к столице. Их знаменитые слова 'Велика Россия, а отступать некуда - позади Москва!' стали символом мужества. Подвиг панфиловцев вдохновил thousands защитников Отечества.",
+                image: "https://avatars.mds.yandex.net/i?id=2a0000019a8d47a9974d547ad61d151d1c97-935048-fast-images&n=13"
+            },
+            {
+                name: "Подвиг Николая Гастелло",
+                period: "1941 г.",
+                description: "Подвиг советского военного лётчика, капитана Николая Гастелло. 26 июня 1941 года направил свой подбитый самолёт на скопление немецкой техники. Пожертвовал жизнью, чтобы нанести максимальный урон врагу. Его имя стало символом мужества и самопожертвования. Посмертно удостоен звания Героя Советского Союза.",
+                image: "https://avatars.mds.yandex.net/i?id=408b4565f4511f272cc0042d2f114f75288d593b-9837140-images-thumbs&n=13"
+            },
+            {
+                name: "Подвиг пионера Лени Голикова",
+                period: "1941-1943 гг.",
+                description: "Подвиг юного партизана, пионера-героя Лёни Голикова. В 16 лет стал разведчиком партизанского отряда. Участвовал в 27 боевых операциях, уничтожил 78 немецких солдат и офицеров. Добыл важные документы, включая чертежи новых образцов немецких мин. Погиб в неравном бою с фашистским карательным отрядом. Посмертно удостоен звания Героя Советского Союза.",
+                image: "https://avatars.mds.yandex.net/i?id=d4390c0f99fd0199d6ae17d76d0308b98026777f-5232617-images-thumbs&n=13"
+            },
+            {
+                name: "Подвиг Владислава Хрустицкого",
+                period: "1942 г.",
+                description: "Подвиг командира 30-й отдельной гвардейской танковой бригады, полковника Владислава Хрустицкого. В январе 1942 года в критический момент боя вызвал огонь на себя. Его бригада прорвала вражескую оборону под Ленинградом. Погиб, обеспечивая успех наступательной операции. Посмертно удостоен звания Героя Советского Союза. Его именем названы улицы в Санкт-Петербурге и других городах.",
+                image: "https://avatars.mds.yandex.net/i?id=e750716a7f4607bb9c230395f44e6ac320a66eaf-4080029-images-thumbs&n=13"
+            }
+        ];
+
+        // Функция для создания карточек героев
+        function createHeroCards() {
+            const heroesGrid = document.querySelector('.heroes-grid');
+            
+            heroesData.forEach(hero => {
+                const card = document.createElement('div');
+                card.className = 'hero-card';
+                
+                card.innerHTML = `
+                    <div class="hero-image">
+                        <img src="${hero.image}" alt="${hero.name}">
+                    </div>
+                    <div class="hero-content">
+                        <h3>${hero.name}</h3>
+                        <p>${hero.description}</p>
+                    </div>
+                `;
+                
+                heroesGrid.appendChild(card);
+            });
+        }
+
+        // Функция для создания карточек событий
+        function createMemoryCards() {
+            const eventsGrid = document.querySelector('.events-grid');
+            
+            memoryData.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                
+                card.innerHTML = `
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.name}">
+                    </div>
+                    <div class="event-content">
+                        <h3>${event.name}</h3>
+                        <p class="event-period">${event.period}</p>
+                        <p>${event.description}</p>
+                    </div>
+                `;
+                
+                eventsGrid.appendChild(card);
+            });
+        }
+
+        // Функция для переключения между вкладками
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Убираем активный класс у всех вкладок и секций
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    
+                    // Добавляем активный класс к выбранной вкладке и секции
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            createHeroCards();
+            createMemoryCards();
+            setupTabs();
+        });
+    </script>
+</body>
+</html>
